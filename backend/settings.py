@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-nbhv&u!wq!$b4-@irf*jp*26+##l*ak0ctc1wu5of(!h3y_=d1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['infinite-basin-66299.herokuapp.com','127.0.0.1']
 
 AUTH_USER_MODEL = 'base.user'
 
