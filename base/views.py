@@ -34,6 +34,7 @@ def getRoutes(request):
         '/api/users/login/',
         '/api/users/register/',
         '/api/users/profile/',
+        '/api/user/<str:pk>/',
 
         '/api/courses/',
         '/api/courses/<id>',
@@ -43,6 +44,11 @@ def getRoutes(request):
 
         '/api/mentor/',
         '/api/mentor/<id>',
+
+        'video/<str:pk>/feedback/',
+        'feedback/get/',
+        'sentiment/get/<str:pk>/',
+        'feedbacks/get/<str:pk>/',
     ]
 
     return Response(routes)
@@ -69,12 +75,27 @@ def registerUser(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAdminUser])
+#@permission_classes([IsAdminUser])
 def getUsers(request):
     users = user.objects.all()
     users_data = UserSerializer(users, many=True)
     return Response(users_data.data)
 
+@api_view(['GET'])
+def getUser(request, pk):
+    user_obj = user.objects.get(id = pk)
+    user_details = UserSerializer(user_obj, many=False)
+    course_ids = enrolment.objects.filter(user_id=user_obj.id)
+    user_skills_query = skill.objects.filter(
+        user_id=user_obj.id).values('skill_title')
+    user_skills = dict()
+    for i in range(0, len(user_skills_query)):
+        user_skills[i] = user_skills_query[i]['skill_title']
+    course_details = dict()
+    for c in range(0, len(course_ids)):
+        course_details[c] = course.objects.filter(
+            title=course_ids[c].course_id).values()[0]
+    return Response({'user_details': user_details.data, 'courses_details': course_details, 'user_skills': user_skills})
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

@@ -10,6 +10,7 @@ urlpatterns = [
     path('courses/',views.getCourses, name="courses"),
     path('courses/<str:pk>/',views.getCourse, name ="course"),
     path('users/',views.getUsers, name ="users"),
+    path('users/<str:pk>/',views.getUser, name ="user"),
     path('users/profile/',views.getUserProfile, name ="user-profile"),
     path('virtual-classroom/',views.getVirtualCourses, name="virtual-classroom"),
     path('virtual-classroom/<str:pk>/',views.getVirtualCourse, name ="virtual-classroom"),
